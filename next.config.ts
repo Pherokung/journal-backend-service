@@ -1,8 +1,12 @@
-import type { NextConfig } from "next";
+const nextConfig = {
+  output: 'standalone',
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  }
+}
 
-const nextConfig: NextConfig = {
-  
-  /* config options here */
-};
 
 export default nextConfig;

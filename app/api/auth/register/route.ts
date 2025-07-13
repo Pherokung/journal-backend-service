@@ -1,15 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import User from '@/models/User';
 import dbConnect from '@/lib/dbConnect';
+import { generateToken } from '@/lib/auth';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    console.log('Register request received');
     await dbConnect();
-    console.log('DB connected');
     
+    // Parse request body
     const { email, password } = await request.json();
-    console.log('Parsed data:', { email, password });
 
     if (!email || !password) {
       return NextResponse.json(
@@ -18,9 +17,8 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check for existing user
     const existingUser = await User.findOne({ email });
-    console.log('Existing user check:', existingUser);
-    
     if (existingUser) {
       return NextResponse.json(
         { message: 'User already exists' },
@@ -28,15 +26,26 @@ export async function POST(request: Request) {
       );
     }
 
+    // Create new user
     const user = new User({ email, password });
     await user.save();
-    console.log('User created:', user);
 
-    return NextResponse.json(
+    // Generate token and set cookie
+    const token = await generateToken(user._id.toString());
+    const response = NextResponse.json(
       { user: { id: user._id, email: user.email } },
       { status: 201 }
     );
+    
+    response.cookies.set('authToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: '/',
+      sameSite: 'strict'
+    });
 
+    return response;
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(

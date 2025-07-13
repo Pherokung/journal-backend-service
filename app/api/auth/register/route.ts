@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
 import User from '@/models/User';
-import { generateToken, setTokenCookie } from '@/lib/auth';
 import dbConnect from '@/lib/dbConnect';
 
 export async function POST(request: Request) {
   try {
+    console.log('Register request received');
+    await dbConnect();
+    console.log('DB connected');
+    
     const { email, password } = await request.json();
+    console.log('Parsed data:', { email, password });
 
     if (!email || !password) {
       return NextResponse.json(
@@ -14,9 +18,9 @@ export async function POST(request: Request) {
       );
     }
 
-    await dbConnect();
-
     const existingUser = await User.findOne({ email });
+    console.log('Existing user check:', existingUser);
+    
     if (existingUser) {
       return NextResponse.json(
         { message: 'User already exists' },
@@ -26,16 +30,15 @@ export async function POST(request: Request) {
 
     const user = new User({ email, password });
     await user.save();
+    console.log('User created:', user);
 
-    const token = await generateToken(user._id.toString());
-    const response = NextResponse.json({
-      user: { id: user._id, email: user.email }
-    });
+    return NextResponse.json(
+      { user: { id: user._id, email: user.email } },
+      { status: 201 }
+    );
 
-    setTokenCookie(token);
-    return response;
   } catch (error) {
-    console.error(error);
+    console.error('Registration error:', error);
     return NextResponse.json(
       { message: 'Internal server error' },
       { status: 500 }

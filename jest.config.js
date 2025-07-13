@@ -1,6 +1,14 @@
-module.exports = {
-  preset: 'ts-jest',
+const nextJest = require('next/jest');
+
+const createJestConfig = nextJest({
+  dir: './',
+});
+
+module.exports = createJestConfig({
+  globalSetup: '<rootDir>/tests/utils/testDb.ts',
+  setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['/node_modules/', '/.next/'],
-  setupFilesAfterEnv: ['./jest.setup.js'],
-};
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
+  }
+});

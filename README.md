@@ -9,8 +9,8 @@ This is the backend service for the Journal App, built with Next.js (App Router)
 ### 1. **Clone the Repository**
 
 ```sh
-git clone https://github.com/your-username/mindglow-journal-backend.git
-cd mindglow-journal-backend-service
+git clone https://github.com/Pherokung/journal-backend-service.git
+cd journal-backend-service
 ```
 
 ### 2. **Install Dependencies**
@@ -35,7 +35,7 @@ MONGODB_URI=your-mongodb-uri
 JWT_SECRET=secret
 ```
 
-> **Note:** For development, you can use a free MongoDB Atlas cluster from [https://www.mongodb.com/atlas](here) .
+> **Note:** For MONGODB_URI, you can use a free MongoDB Atlas cluster from [https://www.mongodb.com/atlas](here) .
 
 ### 4. **Run the Development Server**
 
@@ -43,7 +43,39 @@ JWT_SECRET=secret
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The API can be accessed from [http://localhost:3000/api](http://localhost:3000/api).
+
+Testing some of the APIs using the curl commands:
+
+```sh
+# Register
+curl -X POST http://localhost:3000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123"}' \
+  -c cookies.txt -v
+
+# Login
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123"}' \
+  -c cookies.txt -v
+
+# Create Entry
+curl -X POST http://localhost:3000/api/journal \
+  -H "Content-Type: application/json" \
+  -b cookies.txt \
+  -d '{"title":"Test Entry","content":"Test Content"}'
+
+# Get Entries
+curl -X GET http://localhost:3000/api/journal \
+  -H "Content-Type: application/json" \
+  -b cookies.txt
+
+# Logout
+curl -X POST http://localhost:3000/api/auth/logout \
+  -H "Content-Type: application/json" \
+  -b cookies.txt -v
+```  
 
 ---
 
@@ -104,6 +136,11 @@ tests/              # Jest test files and test utilities
 
 ## 🧑‍💻 Challenges 
 
+Some topics are new to me such as JWT Authentication and Jest unit tests. I need to spend some time understanding their documentation and usage. 
+
+I have some experience in authentication methods but I have never used JWT. So, after trying to comprehend its documentation, it does not take long to get familiar with it.
+
+On the contrary, Jest is completely new for me. I have to spend quite some time to understand its usage. Additionally, I need to design the test to cover and handle all errors, which requires designing beforehand.
 
 ---
 

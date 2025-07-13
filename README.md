@@ -21,7 +21,7 @@ npm install
 
 ### 3. **Environment Variables**
 
-create `.env.local` and `.env.local.test` them in the root directory:
+create `.env.local` and `.env.local.test` files in the root directory:
 
 ```env
 # .env.local

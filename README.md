@@ -21,7 +21,7 @@ npm install
 
 ### 3. **Environment Variables**
 
-Copy `.env.local` and `.env.local.test` from the repo or create them in the root directory:
+create `.env.local` and `.env.local.test` them in the root directory:
 
 ```env
 # .env.local
@@ -113,11 +113,17 @@ npm test
 ## 📁 Project Structure
 
 ```
-app/                # Next.js app directory (API routes, pages)
-models/             # Mongoose models (User, JournalEntry)
-lib/                # Utility libraries (dbConnect, auth)
-tests/              # Jest test files and test utilities
-  └── utils/        # Test DB setup, mock auth helpers
+app/                        # Next.js app directory
+    └── api/ 
+        └── auth/           # Auth operations
+        └── journal/        # CRUD operations
+models/                     # Mongoose models 
+lib/                        # Utility libraries
+tests/                      
+    └── api/          
+        └── auth/           # Auth testing
+        └── journal/        # CRUD testing
+    └── utils/              # Test DB setup, helpers
 ```
 
 ---
@@ -133,6 +139,30 @@ tests/              # Jest test files and test utilities
 - **DELETE /api/journal/[id]**: Delete a journal entry
 
 ---
+
+## ☁️ Vercel
+
+create `.env.production` file in the root directory:
+
+```env
+# .env.local
+MONGODB_URI=your-mongodb-uri
+JWT_SECRET=secret
+NODE_ENV=production
+```
+
+### **Deplyment**
+
+```sh
+npm install -g vercel       # If not installed
+
+vercel login                # Login to Vercel
+
+vercel --prod               # Run deployment
+```
+
+The deployed app (which I deployed with this repo) would look like this: https://journal-backend-service.vercel.app/
+
 
 ## 🧑‍💻 Challenges 
 

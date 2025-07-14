@@ -26,6 +26,24 @@ This is the backend service for the Journal App, built with Next.js (App Router)
 
 ---
 
+## 📁 Project Structure
+
+```
+app/                        # Next.js app directory
+    └── api/ 
+        └── auth/           # Auth operations
+        └── journal/        # CRUD operations
+models/                     # Mongoose models 
+lib/                        # Utility libraries
+tests/                      
+    └── api/          
+        └── auth/           # Auth testing
+        └── journal/        # CRUD testing
+    └── utils/              # Test DB setup, helpers
+```
+
+---
+
 ## 🚀 Getting Started
 
 ### 1. **Clone the Repository**
@@ -57,7 +75,7 @@ MONGODB_URI=your-mongodb-uri
 JWT_SECRET=secret
 ```
 
-> **Note:** For MONGODB_URI, you can use a free MongoDB Atlas cluster from [here](https://www.mongodb.com/atlas) .
+> **Note:** For MONGODB_URI, you can use a free MongoDB Atlas cluster from [here](https://www.mongodb.com/atlas).
 
 ### 4. **Run the Development Server**
 
@@ -113,24 +131,6 @@ curl -X POST http://localhost:3000/api/auth/logout \
 
 ---
 
-## 📁 Project Structure
-
-```
-app/                        # Next.js app directory
-    └── api/ 
-        └── auth/           # Auth operations
-        └── journal/        # CRUD operations
-models/                     # Mongoose models 
-lib/                        # Utility libraries
-tests/                      
-    └── api/          
-        └── auth/           # Auth testing
-        └── journal/        # CRUD testing
-    └── utils/              # Test DB setup, helpers
-```
-
----
-
 ## 🏗️ Design Choices
 
 - **Next.js App Router**: Uses the latest Next.js features for API routing and server components.
@@ -152,11 +152,12 @@ This project uses **Jest** and **ts-jest** for unit and integration testing.
 npm test <file_name>
 ```
 
-The name of test files:
+The name of the test files:
 - register.test.ts
 - delete.test.ts
 - post.test.ts
 - update.test.ts
+- tags.test.ts
 
 ### **Jest Coverage and Configuration**
 
@@ -194,7 +195,7 @@ The deployed app (which I deployed with this repo) would look like this: https:/
 
 ## 🧑‍💻 Challenges 
 
-Some topics are new to me such as JWT Authentication and Jest unit tests. I need to spend some time understanding their documentation and usage. 
+Some topics are new to me, such as JWT Authentication and Jest unit tests. I need to spend some time understanding their documentation and usage. 
 
 I have some experience in authentication methods but I have never used JWT. So, after trying to comprehend its documentation, it does not take long to get familiar with it.
 

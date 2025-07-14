@@ -25,7 +25,7 @@ This is the backend service for the Journal App, built with Next.js (App Router)
   - Multiple test files are written using Jest to test critical API endpoints, focusing on authentication and journal entry operations.
  
 - **Deployment**
-  - Deploy the backend on Vercel
+  - Deploying the backend application on Vercel
 
 ---
 

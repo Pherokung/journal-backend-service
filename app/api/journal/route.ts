@@ -35,7 +35,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { title, content, date } = await request.json();
+    const { title, content, date, tags } = await request.json();
     
     if (!title || !content) {
       return NextResponse.json(
@@ -50,7 +50,8 @@ export async function POST(request: Request) {
       title,
       content,
       date: date || new Date(),
-      user: user._id
+      user: user._id,
+      tags: tags || []
     });
 
     await newEntry.save();

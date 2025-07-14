@@ -1,6 +1,6 @@
 # Journal Backend Service
 
-This is the backend service for the Journal App, built with Next.js (App Router), TypeScript, and MongoDB. It provides RESTful API endpoints for user authentication and journal entry management, and includes a robust suite of Jest unit/integration tests.
+This is the backend service for the Journal App, built with Next.js (App Router), TypeScript, and MongoDB. It provides RESTful API endpoints for user authentication and journal entry management, including support for tags on journal entries. The service also includes a robust suite of Jest unit/integration tests.
 
 ---
 
@@ -60,16 +60,28 @@ curl -X POST http://localhost:3000/api/auth/login \
   -d '{"email":"test@example.com","password":"password123"}' \
   -c cookies.txt -v
 
-# Create Entry
+# Create Entry (with tags)
 curl -X POST http://localhost:3000/api/journal \
   -H "Content-Type: application/json" \
   -b cookies.txt \
-  -d '{"title":"Test Entry","content":"Test Content"}'
+  -d '{"title":"Test Entry","content":"Test Content","tags":["tag1","tag2"]}'
 
-# Get Entries
+# Get Entries (returns tags)
 curl -X GET http://localhost:3000/api/journal \
   -H "Content-Type: application/json" \
   -b cookies.txt
+
+# Add a tag to an entry
+curl -X PATCH http://localhost:3000/api/journal/<ENTRY_ID> \
+  -H "Content-Type: application/json" \
+  -b cookies.txt \
+  -d '{"action":"add","tag":"newtag"}'
+
+# Remove a tag from an entry
+curl -X PATCH http://localhost:3000/api/journal/<ENTRY_ID> \
+  -H "Content-Type: application/json" \
+  -b cookies.txt \
+  -d '{"action":"remove","tag":"tag1"}'
 
 # Logout
 curl -X POST http://localhost:3000/api/auth/logout \
@@ -140,9 +152,12 @@ The name of test files:
 - **POST /api/auth/login**: Log in and receive a JWT cookie
 - **POST /api/auth/logout**: Log out (clear cookie)
 - **GET /api/journal**: Get all journal entries for the authenticated user
-- **POST /api/journal**: Create a new journal entry
+- **POST /api/journal**: Create a new journal entry (optionally include a `tags` array)
 - **PUT /api/journal/[id]**: Update a journal entry
 - **DELETE /api/journal/[id]**: Delete a journal entry
+- **PATCH /api/journal/[id]**: Add or remove a tag from a journal entry  
+  - Request body: `{ "action": "add" | "remove", "tag": "tagName" }`
+  - Only the entry's owner can modify tags
 
 ---
 
@@ -157,7 +172,7 @@ JWT_SECRET=secret
 NODE_ENV=production
 ```
 
-### **Deplyment**
+### **Deployment**
 
 ```sh
 npm install -g vercel       # If not installed

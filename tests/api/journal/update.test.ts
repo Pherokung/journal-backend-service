@@ -73,8 +73,8 @@ describe('PUT /api/journal/:id', () => {
         'Cookie': `authToken=mock-token-for-${otherUser._id}`
       }),
       body: JSON.stringify({
-        title: 'Malicious Update',
-        content: 'Hacked Content'
+        title: 'Unauthorized Update',
+        content: 'Content'
       })
     });
     const params = { id: entry._id.toString() };

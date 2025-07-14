@@ -16,7 +16,7 @@ export async function PUT(
   }
 
   try {
-    const { title, content, date } = await request.json();
+    const { title, content, date, tags } = await request.json();
     
     if (!title || !content) {
       return NextResponse.json(
@@ -29,7 +29,7 @@ export async function PUT(
 
     const updatedEntry = await JournalEntry.findOneAndUpdate(
       { _id: params.id, user: user._id },
-      { title, content, date: date || new Date() },
+      { title, content, date: date || new Date(), tags: tags || [] },
       { new: true }
     );
 
@@ -78,6 +78,65 @@ export async function DELETE(
     }
 
     return NextResponse.json({ message: 'Entry deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const user = await authenticateUser(request);
+  if (!user) {
+    return NextResponse.json(
+      { message: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
+
+  try {
+    const { action, tag } = await request.json();
+
+    if (!action || !tag) {
+      return NextResponse.json(
+        { message: 'Action and tag are required' },
+        { status: 400 }
+      );
+    }
+
+    await dbConnect();
+
+    let update;
+    if (action === 'add') {
+      update = { $addToSet: { tags: tag } };
+    } else if (action === 'remove') {
+      update = { $pull: { tags: tag } };
+    } else {
+      return NextResponse.json(
+        { message: 'Invalid action. Use "add" or "remove".' },
+        { status: 400 }
+      );
+    }
+
+    const updatedEntry = await JournalEntry.findOneAndUpdate(
+      { _id: params.id, user: user._id },
+      update,
+      { new: true }
+    );
+
+    if (!updatedEntry) {
+      return NextResponse.json(
+        { message: 'Entry not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(updatedEntry);
   } catch (error) {
     console.error(error);
     return NextResponse.json(

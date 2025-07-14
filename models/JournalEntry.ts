@@ -19,6 +19,11 @@ const JournalEntrySchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  tags: {
+    type: [String],
+    default: []
+  },
+  
   createdAt: {
     type: Date,
     default: Date.now

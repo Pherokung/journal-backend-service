@@ -12,6 +12,15 @@ afterEach(async () => {
 });
 
 describe('GET /api/journal', () => {
+  it('should return empty array for new users', async () => {
+    const req = await createAuthRequest();
+    const response = await GET(req);
+    expect(response.status).toBe(200);
+    
+    const data = await response.json();
+    expect(data.length).toBe(0);
+  });
+  
   it('should create and fetch entries', async () => {
     const createReq = await createAuthRequest();
     const postResponse = await POST(createReq);
@@ -29,14 +38,5 @@ describe('GET /api/journal', () => {
     const data = await getResponse.json();
     expect(data.length).toBe(1);
     expect(data[0].title).toBe('Test Entry');
-  });
-
-  it('should return empty array for new users', async () => {
-    const req = await createAuthRequest();
-    const response = await GET(req);
-    expect(response.status).toBe(200);
-    
-    const data = await response.json();
-    expect(data.length).toBe(0);
   });
 });

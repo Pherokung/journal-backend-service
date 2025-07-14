@@ -4,6 +4,28 @@ This is the backend service for the Journal App, built with Next.js (App Router)
 
 ---
 
+## 🛠️ Features
+
+- **API Overview**
+  - **POST /api/auth/register**: Register a new user
+  - **POST /api/auth/login**: Log in and receive a JWT cookie
+  - **POST /api/auth/logout**: Log out (clear cookie)
+  - **GET /api/journal**: Get all journal entries for the authenticated user
+  - **POST /api/journal**: Create a new journal entry (optionally include a `tags` array)
+  - **PUT /api/journal/[id]**: Update a journal entry
+  - **DELETE /api/journal/[id]**: Delete a journal entry
+  - **PATCH /api/journal/[id]**: Add or remove a tag from a journal entry  
+    - Request body: `{ "action": "add" | "remove", "tag": "tagName" }`
+    - Only the entry's owner can modify tags
+
+- **Error Handling**
+  - Implement proper error handling for all API routes while returning meaningful error messages for different scenarios
+ 
+- **Testing**
+  - Multiple test files are written using Jest to test critical API endpoints, focusing on authentication and journal entry operations.
+
+---
+
 ## 🚀 Getting Started
 
 ### 1. **Clone the Repository**
@@ -143,21 +165,6 @@ The name of test files:
 - `globalSetup` runs the in-memory MongoDB server before tests.
 - `setupFilesAfterEnv` ensures each test starts with a clean database.
 
-
----
-
-## 🛠️ API Overview
-
-- **POST /api/auth/register**: Register a new user
-- **POST /api/auth/login**: Log in and receive a JWT cookie
-- **POST /api/auth/logout**: Log out (clear cookie)
-- **GET /api/journal**: Get all journal entries for the authenticated user
-- **POST /api/journal**: Create a new journal entry (optionally include a `tags` array)
-- **PUT /api/journal/[id]**: Update a journal entry
-- **DELETE /api/journal/[id]**: Delete a journal entry
-- **PATCH /api/journal/[id]**: Add or remove a tag from a journal entry  
-  - Request body: `{ "action": "add" | "remove", "tag": "tagName" }`
-  - Only the entry's owner can modify tags
 
 ---
 

@@ -79,6 +79,24 @@ curl -X POST http://localhost:3000/api/auth/logout \
 
 ---
 
+## 📁 Project Structure
+
+```
+app/                        # Next.js app directory
+    └── api/ 
+        └── auth/           # Auth operations
+        └── journal/        # CRUD operations
+models/                     # Mongoose models 
+lib/                        # Utility libraries
+tests/                      
+    └── api/          
+        └── auth/           # Auth testing
+        └── journal/        # CRUD testing
+    └── utils/              # Test DB setup, helpers
+```
+
+---
+
 ## 🏗️ Design Choices
 
 - **Next.js App Router**: Uses the latest Next.js features for API routing and server components.
@@ -97,8 +115,14 @@ This project uses **Jest** and **ts-jest** for unit and integration testing.
 ### **How to Run Tests**
 
 ```sh
-npm test
+npm test <file_name>
 ```
+
+The name of test files:
+- register.test.ts
+- delete.test.ts
+- post.test.ts
+- update.test.ts
 
 ### **Jest Coverage and Configuration**
 
@@ -107,24 +131,6 @@ npm test
 - `globalSetup` runs the in-memory MongoDB server before tests.
 - `setupFilesAfterEnv` ensures each test starts with a clean database.
 
-
----
-
-## 📁 Project Structure
-
-```
-app/                        # Next.js app directory
-    └── api/ 
-        └── auth/           # Auth operations
-        └── journal/        # CRUD operations
-models/                     # Mongoose models 
-lib/                        # Utility libraries
-tests/                      
-    └── api/          
-        └── auth/           # Auth testing
-        └── journal/        # CRUD testing
-    └── utils/              # Test DB setup, helpers
-```
 
 ---
 

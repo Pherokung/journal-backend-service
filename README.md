@@ -35,7 +35,7 @@ MONGODB_URI=your-mongodb-uri
 JWT_SECRET=secret
 ```
 
-> **Note:** For MONGODB_URI, you can use a free MongoDB Atlas cluster from [https://www.mongodb.com/atlas](here) .
+> **Note:** For MONGODB_URI, you can use a free MongoDB Atlas cluster from [here](https://www.mongodb.com/atlas) .
 
 ### 4. **Run the Development Server**
 
